@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import moment from "moment";
 
@@ -12,22 +12,27 @@ import Loader from "./components/Loader";
 const PER_PAGE = 10;
 
 // Usage
-function App({ dispatch, status, page, repositories, totalCount, loading }) {
+function App() {
   // State and setters for ...
   // Search term
-  const [search, setSearch] = useState({});
+  const [searchForm, setSearchForm] = useState({});
+  const dispatch = useDispatch();
+
+  const { status, page, repositories, totalCount, loading } = useSelector(
+    (state) => state.repositories
+  );
 
   // Debounce search term so that it only gives us latest value ...
   // ... if search has not been updated within last 500ms.
   // The goal is to only have the API call fire when user stops typing ...
   // ... so that we aren't hitting our API rapidly.
-  const debouncedSearchTerm = useDebounce(search.search, 500);
+  const debouncedSearchTerm = useDebounce(searchForm.search, 500);
 
   const searchRepositories = () => {
     dispatch(
       getRepositories({
         searchTerm: debouncedSearchTerm,
-        language: search.language,
+        language: searchForm.language,
         perPage: PER_PAGE,
         page,
       })
@@ -37,25 +42,26 @@ function App({ dispatch, status, page, repositories, totalCount, loading }) {
   // Effect for API call
   useEffect(
     () => {
-      if (debouncedSearchTerm || search.language) {
+      if (debouncedSearchTerm || searchForm.language) {
         searchRepositories();
       } else {
         dispatch(resetState());
       }
     },
-    [debouncedSearchTerm, search.language] // Only call effect if debounced search term changes
+    [debouncedSearchTerm, searchForm.language] // Only call effect if debounced search term changes
   );
 
   const setFormField = (e) => {
     const { name, value } = e.target;
     dispatch(resetState());
-    setSearch({ ...search, [name]: value });
+    setSearchForm({ ...searchForm, [name]: value });
   };
 
   const hasMore = totalCount ? totalCount - PER_PAGE * page > 0 : false;
 
   return (
     <div>
+      <h1>Repositories</h1>
       <input
         type="text"
         name="search"
@@ -137,14 +143,4 @@ function App({ dispatch, status, page, repositories, totalCount, loading }) {
   );
 }
 
-const mapStateToProps = (state) => {
-  const {
-    repositories: { status, page, repositories, totalCount, loading },
-  } = state;
-  return { page, status, repositories, totalCount, loading };
-};
-
-export default connect(
-  mapStateToProps,
-  null // Generaly its the place of mapStateToDispatch
-)(App);
+export default App;
