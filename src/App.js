@@ -1,60 +1,46 @@
 import { useState, useEffect, useRef } from "react";
-import moment from "moment";
+import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import moment from "moment";
+
+import { getRepositories, resetState } from "./redux/repositories/action";
 
 import useDebounce from "./hooks/useDebounce";
+
+import Loader from "./components/Loader";
 
 const PER_PAGE = 10;
 
 // Usage
-function App() {
+function App({ dispatch, status, page, repositories, totalCount, loading }) {
   // State and setters for ...
   // Search term
   const [search, setSearch] = useState({});
-  const [page, setPage] = useState(1);
 
-  // API search results
-  const [results, setResults] = useState({});
-  // Searching status (whether there is pending API request)
-  const [isSearching, setIsSearching] = useState(false);
   // Debounce search term so that it only gives us latest value ...
   // ... if search has not been updated within last 500ms.
   // The goal is to only have the API call fire when user stops typing ...
   // ... so that we aren't hitting our API rapidly.
   const debouncedSearchTerm = useDebounce(search.search, 500);
 
-  const searchRepositories = async () => {
-    try {
-      const response = await fetch(
-        `https://api.github.com/search/repositories?q=${debouncedSearchTerm}${
-          search.language ? `+language:${search.language.toLowerCase()}` : ""
-        }&sort=stars&order=desc&per_page=${PER_PAGE}&page=${page}`,
-        {
-          method: "GET",
-        }
-      );
-      const data = await response.json();
-      setIsSearching(false);
-      if (results.items && Array.isArray(results.items)) {
-        data.items = [...results.items, ...data.items];
-      }
-      setResults(data);
-      setPage(page + 1);
-    } catch (err) {
-      setResults([]);
-      setIsSearching(false);
-    }
+  const searchRepositories = () => {
+    dispatch(
+      getRepositories({
+        searchTerm: debouncedSearchTerm,
+        language: search.language,
+        perPage: PER_PAGE,
+        page,
+      })
+    );
   };
 
   // Effect for API call
   useEffect(
-    async () => {
+    () => {
       if (debouncedSearchTerm || search.language) {
-        setIsSearching(true);
-        await searchRepositories();
+        searchRepositories();
       } else {
-        setResults([]);
-        setIsSearching(false);
+        dispatch(resetState());
       }
     },
     [debouncedSearchTerm, search.language] // Only call effect if debounced search term changes
@@ -62,14 +48,11 @@ function App() {
 
   const setFormField = (e) => {
     const { name, value } = e.target;
-    setResults({});
-    setPage(1);
+    dispatch(resetState());
     setSearch({ ...search, [name]: value });
   };
 
-  const { items: repositories = [], total_count } = results;
-
-  const hasMore = total_count ? total_count - PER_PAGE * page > 0 : false;
+  const hasMore = totalCount ? totalCount - PER_PAGE * page > 0 : false;
 
   return (
     <div>
@@ -80,7 +63,7 @@ function App() {
         placeholder="Find a repository..."
         onChange={setFormField}
       />
-      {isSearching && <div>Searching ...</div>}
+      {loading && <Loader />}
 
       <select name="language" id="language" onChange={setFormField}>
         <option>All</option>
@@ -100,9 +83,13 @@ function App() {
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>Yay! You have seen it all</b>
-          </p>
+          <>
+            {page > 1 ? (
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            ) : null}
+          </>
         }
         // // below props only if you need pull down functionality
         // refreshFunction={this.refresh}
@@ -150,4 +137,14 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  const {
+    repositories: { status, page, repositories, totalCount, loading },
+  } = state;
+  return { page, status, repositories, totalCount, loading };
+};
+
+export default connect(
+  mapStateToProps,
+  null // Generaly its the place of mapStateToDispatch
+)(App);
