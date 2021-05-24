@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import moment from "moment";
@@ -7,7 +7,7 @@ import { getRepositories, resetState } from "./redux/repositories/action";
 
 import useDebounce from "./hooks/useDebounce";
 
-import Loader from "./components/Loader";
+import { Loader, SearchForm, Result } from "./components";
 
 const PER_PAGE = 10;
 
@@ -59,30 +59,12 @@ function App() {
 
   const hasMore = totalCount ? totalCount - PER_PAGE * page > 0 : false;
 
-  return (
-    <div>
-      <h1>Repositories</h1>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        placeholder="Find a repository..."
-        onChange={setFormField}
-      />
-      {loading && <Loader />}
+  useEffect(() => {});
 
-      <select name="language" id="language" onChange={setFormField}>
-        <option>All</option>
-        <option value="Javascript">Javascript</option>
-        <option value="Python">Python</option>
-        <option value="Java">Java</option>
-        <option value="GoLang">GoLang</option>
-        <option value="Ruby">Ruby</option>
-        <option value="Rust">Rust</option>
-        <option value="C">C</option>
-        <option value="Dart">Dart</option>
-        <option value="PHP">PHP</option>
-      </select>
+  return (
+    <section id="wrapper">
+      <SearchForm />
+      <Result />
       <InfiniteScroll
         dataLength={repositories.length} //This is important field to render the next data
         next={searchRepositories}
@@ -97,16 +79,6 @@ function App() {
             ) : null}
           </>
         }
-        // // below props only if you need pull down functionality
-        // refreshFunction={this.refresh}
-        // pullDownToRefresh
-        // pullDownToRefreshThreshold={50}
-        // pullDownToRefreshContent={
-        //   <h3 style={{ textAlign: "center" }}>&#8595; Pull down to refresh</h3>
-        // }
-        // releaseToRefreshContent={
-        //   <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
-        // }
       >
         {repositories.map(
           ({
@@ -139,7 +111,7 @@ function App() {
           )
         )}
       </InfiniteScroll>
-    </div>
+    </section>
   );
 }
 
