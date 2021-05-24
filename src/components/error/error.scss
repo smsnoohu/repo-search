@@ -1,0 +1,20 @@
+@import "../../assets/styles/breakpoint";
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f00;
+  font-size: 15px;
+  font-weight: 300;
+  @include breakpoint(tablet, min) {
+    font-size: 25px;
+  }
+  span {
+    font-size: 25px;
+    font-weight: 600;
+    padding-right: 10px;
+    @include breakpoint(tablet, min) {
+      font-size: 40px;
+    }
+  }
+}

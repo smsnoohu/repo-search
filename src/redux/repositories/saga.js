@@ -8,13 +8,14 @@ import {
 
 import { searchRepositories } from "./query";
 
+// serive saga
 export function* getRepositoriesSaga({ payload }) {
   try {
-    const { data } = yield call(searchRepositories, payload);
+    const { data } = yield call(searchRepositories, payload); // Call service
 
-    yield put(setRepositories(data));
+    yield put(setRepositories(data)); // Setting success data
   } catch (err) {
-    yield put(setRepositoriesError(err));
+    yield put(setRepositoriesError(err)); //Setting error data
   }
 }
 

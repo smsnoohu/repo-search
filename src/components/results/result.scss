@@ -4,6 +4,12 @@
   display: flex;
   flex-wrap: wrap;
   padding: 15px 0;
+  .end-of-result {
+    text-align: center;
+    width: 100%;
+    font-weight: 600;
+    padding: 10px;
+  }
   .repo-result-item {
     width: calc(33.3333% - 20px);
     background-color: rgba(247, 235, 235, 0.2);
@@ -22,14 +28,6 @@
 
     @include breakpoint(tablet-lg, min) {
       width: calc(33.3333% - 20px);
-    }
-
-    @include breakpoint(desktop, min) {
-      width: calc(25% - 20px);
-    }
-
-    @include breakpoint(desktop-lg, min) {
-      width: calc(20% - 20px);
     }
 
     &:hover {

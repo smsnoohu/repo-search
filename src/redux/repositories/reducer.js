@@ -1,10 +1,13 @@
 import { handleActions } from "redux-actions";
+
 import {
   getRepositories,
   setRepositories,
   setRepositoriesError,
   resetState,
 } from "./action";
+
+import { STATUS } from "../../constant/constant";
 
 const DEFAULT_STATE = {
   loading: false,
@@ -14,9 +17,13 @@ const DEFAULT_STATE = {
   repositories: [],
 };
 
+const { SUCCESS, ERROR } = STATUS;
+
 const handlers = {
+  // Initiate fetch service
   [getRepositories]: (state) => ({ ...state, loading: true }),
 
+  // Set state after getting responce from service
   [setRepositories]: (state, action) => {
     if (state.repositories && Array.isArray(state.repositories)) {
       action.payload.items = [...state.repositories, ...action.payload.items];
@@ -27,16 +34,18 @@ const handlers = {
     return {
       page: state.page + 1,
       loading: false,
-      status: "DONE",
+      status: SUCCESS,
       totalCount,
       repositories,
     };
   },
 
+  // Set Error state from response
   [setRepositoriesError]: (state, action) => {
-    return { ...DEFAULT_STATE, status: "ERROR" };
+    return { ...DEFAULT_STATE, status: ERROR };
   },
 
+  // Reset State
   [resetState]: () => {
     return { ...DEFAULT_STATE };
   },

@@ -1,8 +1,8 @@
-.search-wrapper {
+.filter-wrapper {
   p {
     padding-top: 10px;
   }
-  .search-form {
+  .filter-container {
     display: flex;
     .field {
       display: flex;
@@ -26,12 +26,12 @@
       }
 
       input {
-        font-size: 1.2em;
+        font-size: 1rem;
         border: 0;
         font-family: inherit;
         -webkit-appearance: none;
         border-radius: 0;
-        padding: 0;
+        padding: 5px;
         cursor: text;
 
         &:focus {
@@ -43,10 +43,9 @@
             cursor: text;
             max-width: 100%;
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
             transform-origin: left bottom;
-            transform: translate(0, 0.9rem);
+            transform: translate(0, 1rem);
             font-size: 15px;
             text-transform: uppercase;
             letter-spacing: 0.05em;

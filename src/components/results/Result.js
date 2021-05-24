@@ -1,49 +1,39 @@
-import React, { useState, useEffect } from "react";
-import moment from "moment";
+import React from "react";
+import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-import { dummyData } from "../../dummy";
+import { RESULTS_PER_PAGE } from "../../constant/constant";
+import ReporTile from "./RepoTile";
 import "./result.scss";
 
-const Result = () => {
-  const [dummy, setDummy] = useState(dummyData);
+const Result = ({ searchRepositories }) => {
+  const { page, repositories, totalCount } = useSelector(
+    (state) => state.repositories
+  );
+
+  const hasMore = totalCount ? totalCount - RESULTS_PER_PAGE * page > 0 : false;
+  // infinite-scroll-component
   return (
-    <div className="repo-result-container">
-      {dummy &&
-        dummy.items &&
-        dummy.items.length &&
-        dummy.items.map(
-          ({
-            id,
-            name,
-            stargazers_count,
-            language,
-            html_url,
-            updated_at,
-            forks_count,
-            owner: { login, avatar_url, url: ownerUrl },
-          }) => (
-            <div className="repo-result-item" key={`repo_${id}`}>
-              <h3>
-                <a href={html_url} target="_blank">
-                  {name}
-                </a>
-              </h3>
-              <div className="user-info">
-                <a href={ownerUrl} target="_blank">
-                  <img src={avatar_url} alt={name} />
-                  <span>{login}</span>
-                </a>
-              </div>
-              <ul className="repo-info">
-                <li className="language-icon">{language}</li>
-                <li className="star-icon">{stargazers_count}</li>
-                <li className="fork-icon">{forks_count}</li>
-                <li className="clock-icon">{moment(updated_at).fromNow()}</li>
-              </ul>
-            </div>
-          )
-        )}
-    </div>
+    <InfiniteScroll
+      dataLength={repositories.length}
+      next={searchRepositories}
+      hasMore={hasMore}
+      loader={<h4>Loading...</h4>}
+      className="repo-result-container"
+      endMessage={
+        <>
+          {repositories.length && page > 1 ? (
+            <p className="end-of-result">
+              End of the result. You have seen it all
+            </p>
+          ) : null}
+        </>
+      }
+    >
+      {repositories.map((data) => (
+        <ReporTile key={`repo_${data.id}`} data={data} />
+      ))}
+    </InfiniteScroll>
   );
 };
 
