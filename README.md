@@ -9,29 +9,33 @@ This project uses the Github API to fetch repositories and programming languages
 ## Get from GitHub
 
 #### HTTP
+
 https://github.com/smsnoohu/repo-search.git
 
 #### SSH
+
 git@github.com:smsnoohu/repo-search.git
 
 #### GitHub CLI
+
 gh repo clone smsnoohu/repo-search
 
 ## Installation
 
 After clone you will need to install dependencies
 
-#### Install
+#### Install Dependendies
+
 ```sh
 $ npm i
 ```
 
-#### Serve
+## Serve
 
 ```sh
 $ npm run start
 ```
-  
+
 Runs the app in the development mode.\
 Open http://localhost:3000 to view it in the browser.
 
