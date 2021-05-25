@@ -20,9 +20,10 @@ a,
 a:focus,
 a:visited {
   color: #0366d6;
+  text-decoration: none;
 
-  &:not(:hover) {
-    text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 }
 #wrapper {

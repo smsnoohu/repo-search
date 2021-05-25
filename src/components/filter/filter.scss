@@ -1,73 +1,73 @@
 .filter-wrapper {
-  .filter-container {
+  display: flex;
+  border: 0;
+  .field {
     display: flex;
-    .field {
-      display: flex;
-      flex-flow: column-reverse;
-      flex: 2;
-      border-bottom: 1px solid #ccc;
-      height: 40px;
-      label,
-      input {
-        transition: all 0.2s;
-        touch-action: manipulation;
-      }
-
-      ::-webkit-input-placeholder {
-        opacity: 0;
-        transition: inherit;
-      }
-
-      input:focus::-webkit-input-placeholder {
-        opacity: 1;
-      }
-
-      input {
-        font-size: 1rem;
-        border: 0;
-        font-family: inherit;
-        -webkit-appearance: none;
-        border-radius: 0;
-        padding: 5px;
-        cursor: text;
-
-        &:focus {
-          outline: 0;
-        }
-
-        &:placeholder-shown {
-          + label {
-            cursor: text;
-            max-width: 100%;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            transform-origin: left bottom;
-            transform: translate(0, 1rem);
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-          }
-        }
-
-        &:not(:placeholder-shown),
-        &:focus {
-          + label {
-            transform: translate(0, 0);
-            font-size: 11px;
-            cursor: pointer;
-            text-transform: capitalize;
-          }
-        }
-      }
+    flex-flow: column-reverse;
+    flex: 2;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    height: 40px;
+    label,
+    input {
+      transition: all 0.2s;
+      touch-action: manipulation;
     }
-    select {
-      border: solid 1px #ccc;
-      border-width: 0 0 1px 1px;
-      padding: 0 0 0 10px;
+
+    ::-webkit-input-placeholder {
+      opacity: 0;
+      transition: inherit;
+    }
+
+    input:focus::-webkit-input-placeholder {
+      opacity: 1;
+    }
+
+    input {
+      font-size: 1rem;
+      border: 0;
+      font-family: inherit;
+      -webkit-appearance: none;
+      border-radius: 0;
+      padding: 5px;
+      cursor: text;
 
       &:focus {
         outline: 0;
       }
+
+      &:placeholder-shown {
+        + label {
+          cursor: text;
+          max-width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          transform-origin: left bottom;
+          transform: translate(0, 1rem);
+          font-size: 15px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+      }
+
+      &:not(:placeholder-shown),
+      &:focus {
+        + label {
+          transform: translate(0, 0);
+          font-size: 11px;
+          cursor: pointer;
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+  select {
+    border: solid 1px #ccc;
+    border-width: 0 0 1px 1px;
+    padding: 0 0 0 10px;
+
+    &:focus {
+      outline: 0;
     }
   }
 }

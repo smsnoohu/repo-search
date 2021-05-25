@@ -25,25 +25,31 @@ const Result = ({ searchRepositories }) => {
       <div className="switch-layout">
         {status === SUCCESS && (
           <>
-            <p className="count">
+            <p className="count" role="status">
               {totalCount} result{totalCount > 1 && <>s</>} found.
             </p>
             <div>
               <button
                 id="grid"
                 name="grid"
+                role="button"
+                title="Grid View"
+                aria-label="Grid View"
                 className={`grid ${grid ? "active" : ""}`}
                 onClick={() => setGrid(true)}
               >
-                &#x2637;
+                <span aria-hidden="true">&#x2637;</span>
               </button>
               <button
                 id="list"
                 name="list"
+                role="button"
+                title="List View"
+                aria-label="List View"
                 className={`list ${grid ? "" : "active"}`}
                 onClick={() => setGrid(false)}
               >
-                &#x2630;
+                <span aria-hidden="true">&#x2630;</span>
               </button>
             </div>
           </>

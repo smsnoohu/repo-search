@@ -4,9 +4,9 @@ import { Filter } from "./components";
 
 function App() {
   return (
-    <section id="wrapper">
+    <main id="wrapper" role="main">
       <Filter />
-    </section>
+    </main>
   );
 }
 

@@ -58,34 +58,32 @@ const Filter = () => {
 
   return (
     <>
-      <div className="filter-wrapper">
-        <div className="filter-container">
-          <div className="field">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="Find a repository..."
-              autoComplete="off"
-              onChange={setFormField}
-            />
-            <label htmlFor="search">Search repositories</label>
-          </div>
+      <fieldset className="filter-wrapper" role="search" aria-label="Search API from GitHub">
+        <fieldset className="field">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Find a repository..."
+            autoComplete="off"
+            onChange={setFormField}
+          />
+          <label htmlFor="search">Search repositories</label>
+        </fieldset>
 
-          <select name="language" id="language" onChange={setFormField}>
-            <option value="All">All</option>
-            <option value="Javascript">Javascript</option>
-            <option value="Python">Python</option>
-            <option value="Java">Java</option>
-            <option value="GoLang">GoLang</option>
-            <option value="Ruby">Ruby</option>
-            <option value="Rust">Rust</option>
-            <option value="C">C</option>
-            <option value="Dart">Dart</option>
-            <option value="PHP">PHP</option>
-          </select>
-        </div>
-      </div>
+        <select name="language" id="language" onChange={setFormField}>
+          <option value="All">All</option>
+          <option value="Javascript">Javascript</option>
+          <option value="Python">Python</option>
+          <option value="Java">Java</option>
+          <option value="GoLang">GoLang</option>
+          <option value="Ruby">Ruby</option>
+          <option value="Rust">Rust</option>
+          <option value="C">C</option>
+          <option value="Dart">Dart</option>
+          <option value="PHP">PHP</option>
+        </select>
+      </fieldset>
 
       {repositories.length > 0 && (
         <Result searchRepositories={searchRepositories} />

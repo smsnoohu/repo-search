@@ -26,10 +26,18 @@ const RepoTile = (props) => {
         </a>
       </div>
       <ul className="repo-info">
-        <li className="language-icon">{language}</li>
-        <li className="star-icon">{starCount}</li>
-        <li className="fork-icon">{forkCount}</li>
-        <li className="clock-icon">{moment(updatedAt).fromNow()}</li>
+        <li className="language-icon" title={language}>
+          {language}
+        </li>
+        <li className="star-icon" title={starCount}>
+          {starCount}
+        </li>
+        <li className="fork-icon" title={forkCount}>
+          {forkCount}
+        </li>
+        <li className="clock-icon" title={moment(updatedAt).fromNow()}>
+          {moment(updatedAt).fromNow()}
+        </li>
       </ul>
     </div>
   );
