@@ -1,6 +1,6 @@
 # React JS GitHub Repositories Search
 
-A simple Github repositories and programming languages search App developed using ReactJS, Redux, Redux Saga, SCSS.
+A simple Github repositories and programming languages search App developed using ReactJS, React Hooks, Redux, Redux Saga, SCSS.
 
 ## Usage
 
