@@ -1,37 +1,38 @@
 import React from "react";
 import moment from "moment";
 
-const ReporTile = (props) => {
+const RepoTile = (props) => {
   const {
     name,
-    stargazers_count,
+    stargazers_count: starCount,
     language,
-    html_url,
-    updated_at,
-    forks_count,
-    owner: { login, avatar_url, url: ownerUrl },
+    html_url: repoUrl,
+    updated_at: updatedAt,
+    forks_count: forkCount,
+    owner: { login: userName, avatar_url: avatarUrl, url: ownerUrl },
   } = props.data;
+
   return (
     <div className="repo-result-item">
       <h3>
-        <a href={html_url} target="_blank" rel="noreferrer">
+        <a href={repoUrl} target="_blank" rel="noreferrer">
           {name}
         </a>
       </h3>
       <div className="user-info">
         <a href={ownerUrl} target="_blank" rel="noreferrer">
-          <img src={avatar_url} alt={name} />
-          <span>{login}</span>
+          <img src={avatarUrl} alt={name} />
+          <span>{userName}</span>
         </a>
       </div>
       <ul className="repo-info">
         <li className="language-icon">{language}</li>
-        <li className="star-icon">{stargazers_count}</li>
-        <li className="fork-icon">{forks_count}</li>
-        <li className="clock-icon">{moment(updated_at).fromNow()}</li>
+        <li className="star-icon">{starCount}</li>
+        <li className="fork-icon">{forkCount}</li>
+        <li className="clock-icon">{moment(updatedAt).fromNow()}</li>
       </ul>
     </div>
   );
 };
 
-export default ReporTile;
+export default RepoTile;

@@ -1,11 +1,14 @@
 @import "../../assets/styles/breakpoint";
-.error {
+.message {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f00;
   font-size: 15px;
   font-weight: 300;
+  padding: 20px;
+  &.error {
+    color: #f00;
+  }
   @include breakpoint(tablet, min) {
     font-size: 25px;
   }

@@ -29,9 +29,10 @@ a:visited {
   display: flex;
   flex-direction: column;
   width: 90%;
-  min-height: calc(100vh - 20px);
+  min-height: 100vh;
   max-width: 1280px;
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 15px;
   box-shadow: 0 3px 5px rgba(32, 31, 31, 0.15);
+  border-top: solid 10px rgb(236, 222, 222);
 }

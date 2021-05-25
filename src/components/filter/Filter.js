@@ -3,28 +3,33 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getRepositories, resetState } from "../../redux/repositories/action";
 import useDebounce from "../../hooks/useDebounce";
-import { Loader, Result, Error } from "../../components";
+
 import { RESULTS_PER_PAGE, STATUS } from "../../constant/constant";
+
+import { Loader, Result, Message } from "../../components";
+
 import "./filter.scss";
 
 const Filter = () => {
   const [searchForm, setSearchForm] = useState({});
 
+  const { search, language } = searchForm;
+
   const { SUCCESS, ERROR } = STATUS;
 
   const dispatch = useDispatch();
 
-  const { status, page, totalCount, loading } = useSelector(
+  const { status, page, loading, repositories } = useSelector(
     (state) => state.repositories
   );
 
-  const debouncedSearchTerm = useDebounce(searchForm.search, 500);
+  const debouncedSearchTerm = useDebounce(search, 500);
 
   const searchRepositories = () => {
     dispatch(
       getRepositories({
         searchTerm: debouncedSearchTerm,
-        language: searchForm.language,
+        language: language,
         perPage: RESULTS_PER_PAGE,
         page,
       })
@@ -34,13 +39,13 @@ const Filter = () => {
   // Effect for API call
   useEffect(
     () => {
-      if (debouncedSearchTerm || searchForm.language) {
+      if (debouncedSearchTerm || language) {
         searchRepositories();
       } else {
         dispatch(resetState());
       }
     },
-    [debouncedSearchTerm, searchForm.language] // Only call effect if debounced search term or language changes
+    [debouncedSearchTerm, language] // Only call effect if debounced search term or language changes
   );
 
   const setFormField = (e) => {
@@ -48,6 +53,8 @@ const Filter = () => {
     dispatch(resetState());
     setSearchForm({ ...searchForm, [name]: value });
   };
+
+  console.log("status: ", status, repositories.length);
 
   return (
     <>
@@ -78,12 +85,17 @@ const Filter = () => {
             <option value="PHP">PHP</option>
           </select>
         </div>
-        {status === SUCCESS && <p>{totalCount} results found</p>}
       </div>
 
-      <Result searchRepositories={searchRepositories} />
+      {repositories.length > 0 && (
+        <Result searchRepositories={searchRepositories} />
+      )}
 
-      {status === ERROR && <Error />}
+      {status === SUCCESS && repositories.length === 0 && (
+        <Message status="empty" />
+      )}
+
+      {status === ERROR && <Message status="error" />}
 
       {loading && <Loader />}
     </>

@@ -16,18 +16,19 @@
     padding: 15px;
     margin: 10px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, width 0.2s ease-in-out;
 
     @include breakpoint(mobile, min) {
       width: calc(100% - 20px);
     }
+    @at-root .grid-layout#{&} {
+      @include breakpoint(tablet, min) {
+        width: calc(50% - 20px);
+      }
 
-    @include breakpoint(tablet, min) {
-      width: calc(50% - 20px);
-    }
-
-    @include breakpoint(tablet-lg, min) {
-      width: calc(33.3333% - 20px);
+      @include breakpoint(tablet-lg, min) {
+        width: calc(33.3333% - 20px);
+      }
     }
 
     &:hover {
@@ -82,6 +83,35 @@
           background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAQAAACR313BAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQflBRgANBPohGK4AAABIElEQVQY003RTyikARzG8c/7zgxGpmnJRJE/m6TkJhJpnf05uK0j7nuZddmLUnJXk5Qb5ezgoLbsRYhSmxyc7E6U2rWSg5nBwTuzntPT8zz1rd8v8KaYPv2aFF068CtKBaDDrLRzeQldOh3Z8lie9NowrQb1MmjyzZK6t7JRzmg0nDYXobK+CAh9dmE/quPioGRdgwyhQbtlipeKu7PslrhAvhJWV1yrGTe2Q0WFKBrwySlosyqpRTZUJQkmzMs5QocFP/U7Nxh60I3AX4uO0S7rUNyFr/ZiEsbse3blHjErHtW7VuuHXGhHwaww4id9MCKl2W9rijElZ8YNufbPs1qTCnp8t6ZUvnnSlGFP8jZlJPxxpfT/JZDyUdqJB+/0CqSKRvFnKagBAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI0VDAwOjUyOjEyKzAwOjAwC6Q+AAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yNFQwMDo1MjoxMiswMDowMHr5hrwAAAAASUVORK5CYII=");
         }
       }
+    }
+  }
+}
+.switch-layout {
+  display: flex;
+  justify-content: space-between;
+  .count {
+    padding: 15px 0;
+  }
+  div {
+    @include breakpoint(tablet, max) {
+      display: none;
+    }
+  }
+  button {
+    display: inline-block;
+    padding: 0.1rem 0.7rem;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    background-color: rgba(230, 230, 230, 0.5);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin: 10px 0 0 10px;
+    cursor: pointer;
+
+    &.active {
+      background-color: rgba(46, 27, 114, 0.6);
+      color: #fff;
+      cursor: default;
     }
   }
 }
